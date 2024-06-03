@@ -26,23 +26,31 @@ How to run the program
 * deploy
 * check if it's running
 ```
-code blocks for commands
+
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.25;
-contract SmartContract {
-    uint public value;
-    function setValue(uint256 _newValue) external {
-        require(_newValue >= 10 && _newValue <= 1000, "You can only enter up to 10 but cannot be above 1000");
-        value = _newValue;
+pragma solidity ^0.8.0;
+
+contract ErrorHandling {
+   uint256 public value;    
+    function setValue(uint256 _value) public {
+        require(_value > 100, "Value must be greater than 100.");
+        value = _value;
     }
-    function assertValue(uint256 _num) external pure returns (uint256) {
-        assert(_num >= 10 && _num <=1000);
-        return _num;
+
+    function doubleValue() public {
+        uint256 oldValue = value;
+        value = value * 2;
+        assert(value == oldValue * 2);
     }
-    function revertValue(uint256 _num) external pure returns (uint256) {
-        if (_num >= 10 && _num <= 1000) {
-            revert("Value must between 10 and 1000");
+    
+    function resetValue() public {
+        if (value == 100) {
+            revert("Value is already 100.");
         }
+        value = 0;
+    }
+}
+
         return _num;
     }
 }
